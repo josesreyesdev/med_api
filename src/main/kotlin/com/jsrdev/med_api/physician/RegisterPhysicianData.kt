@@ -18,5 +18,6 @@ data class RegisterPhysicianData(
     val phoneNumber: String,
     @Serializable(with = SpecialtySerializer::class)
     val specialty: Specialty,
+    @JsonNames("address", "addressData", "address_data")
     val addressData: AddressData
 )
