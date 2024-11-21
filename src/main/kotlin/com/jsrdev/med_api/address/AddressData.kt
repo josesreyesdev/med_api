@@ -19,6 +19,6 @@ data class AddressData(
     @JsonNames("externalNumber", "external_number")
     val externalNumber: String,
     @JsonNames("internalNumber", "internal_number")
-    val internalNumber: String? = "N/A",
+    val internalNumber: String?,
     val complement: String
 )
