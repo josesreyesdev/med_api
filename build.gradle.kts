@@ -28,9 +28,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
-    // serialize and deserialize json
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-
     // mysql
     runtimeOnly("com.mysql:mysql-connector-j")
 
@@ -40,6 +37,13 @@ dependencies {
     // flyway
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-mysql")
+
+    // bean validation
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+
+    // hibernate validator
+    implementation("jakarta.validation:jakarta.validation-api:3.0.2")
+    implementation("org.glassfish:jakarta.el:4.0.2")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")

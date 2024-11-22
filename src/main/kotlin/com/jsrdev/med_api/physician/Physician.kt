@@ -2,7 +2,6 @@ package com.jsrdev.med_api.physician
 
 import com.jsrdev.med_api.address.Address
 import jakarta.persistence.*
-import kotlinx.serialization.ExperimentalSerializationApi
 
 @Table(name = "physicians")
 @Entity(name = "Physician")
@@ -10,7 +9,7 @@ data class Physician(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     val name: String,
-    val avatar: String,
+    val avatar: String?,
     val email: String,
     val document: String,
     @Column(name = "phone_number")
@@ -20,7 +19,6 @@ data class Physician(
     @Embedded
     val address: Address
 ) {
-    @OptIn(ExperimentalSerializationApi::class)
     constructor(registerData: RegisterPhysicianData) : this(
         id = null,
         name = registerData.name,

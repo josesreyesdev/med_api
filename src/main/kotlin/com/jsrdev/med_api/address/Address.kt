@@ -2,14 +2,13 @@ package com.jsrdev.med_api.address
 
 import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
-import kotlinx.serialization.ExperimentalSerializationApi
 
 @Embeddable
 data class Address(
     val street: String,
     @Column(name = "state_or_province")
     val stateOrProvince: String,
-    @Column(name ="municipality_or_delegation")
+    @Column(name = "municipality_or_delegation")
     val municipalityOrDelegation: String,
     val city: String,
     @Column(name = "zip_code")
@@ -19,9 +18,8 @@ data class Address(
     val externalNumber: String,
     @Column(name = "internal_number")
     val internalNumber: String?,
-    val complement: String
+    val complement: String?
 ) {
-    @OptIn(ExperimentalSerializationApi::class)
     constructor(addressData: AddressData) : this(
         street = addressData.street,
         stateOrProvince = addressData.stateOrProvince,
