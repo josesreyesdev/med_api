@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: med_api
+
+  datasource:
+    url: jdbc:mysql://${DB_HOST}/med_api
+    username: root
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+

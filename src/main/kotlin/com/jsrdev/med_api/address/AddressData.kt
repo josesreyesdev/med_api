@@ -1,24 +1,37 @@
 package com.jsrdev.med_api.address
 
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonNames
+import com.fasterxml.jackson.annotation.JsonAlias
+import jakarta.validation.constraints.NotBlank
 
-@ExperimentalSerializationApi
-@Serializable
+
 data class AddressData(
+    @field:NotBlank(message = "Street must not be empty.")
     val street: String,
-    @JsonNames("stateOrProvince", "state_or_province")
+
+    @JsonAlias("stateOrProvince", "state_or_province")
+    @field:NotBlank(message = "State Or Province must not be empty.")
     val stateOrProvince: String,
-    @JsonNames("municipalityOrDelegation", "municipality_or_delegation")
+
+    @JsonAlias("municipalityOrDelegation", "municipality_or_delegation")
+    @field:NotBlank(message = "Municipality Or Delegation must not be empty.")
     val municipalityOrDelegation: String,
+
+    @field:NotBlank(message = "City must not be empty.")
     val city: String,
-    @JsonNames("zipCode", "zip_code")
+
+    @JsonAlias("zipCode", "zip_code")
+    @field:NotBlank(message = "Zip Code must not be empty.")
     val zipCode: String,
+
+    @field:NotBlank(message = "Country must not be empty.")
     val country: String,
-    @JsonNames("externalNumber", "external_number")
+
+    @JsonAlias("externalNumber", "external_number", "ext_number")
+    @field:NotBlank(message = "Ext Number must not be empty.")
     val externalNumber: String,
-    @JsonNames("internalNumber", "internal_number")
-    val internalNumber: String? = "N/A",
-    val complement: String
+
+    @JsonAlias("internalNumber", "internal_number", "int_number")
+    val internalNumber: String? = null,
+
+    val complement: String? = null
 )

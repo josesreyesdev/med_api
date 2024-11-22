@@ -1,23 +1,39 @@
 package com.jsrdev.med_api.physician
 
+import com.fasterxml.jackson.annotation.JsonAlias
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.jsrdev.med_api.address.AddressData
-import com.jsrdev.med_api.service.SpecialtySerializer
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonNames
+import jakarta.validation.Valid
+import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Pattern
 
-
-@OptIn(ExperimentalSerializationApi::class)
-@Serializable
 data class RegisterPhysicianData(
+    @field:NotBlank(message = "Name must not be empty.")
     val name: String,
-    val avatar: String,
+
+    val avatar: String? = null,
+
+    @field:NotBlank(message = "Email must not be empty.")
+    @field:Email(message = "Email must be a valid format.")
     val email: String,
+
+    @field:NotBlank(message = "Document must not be empty.")
+    @field:Pattern(regexp = "\\d{4,9}", message = "Document must contain between 4 and 9 digits.")
     val document: String,
-    @JsonNames("phoneNumber", "phone_number")
+
+    @JsonAlias("phoneNumber", "phone_number")
+    @field:NotBlank(message = "Phone number must not be empty.")
     val phoneNumber: String,
-    @Serializable(with = SpecialtySerializer::class)
+
+    @JsonDeserialize(using = SpecialtyDeserializer::class)
+    @field:NotNull(message = "Specialty must not be null.")
     val specialty: Specialty,
-    @JsonNames("address", "addressData", "address_data")
+
+    @JsonAlias("address", "addressData", "address_data")
+    @field:NotNull(message = "Address data must not be null.")
+    @field:Valid
     val addressData: AddressData
 )
+
