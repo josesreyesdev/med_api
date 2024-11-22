@@ -1,13 +1,10 @@
 package com.jsrdev.med_api.physician
 
-import com.jsrdev.med_api.service.SpecialtySerializer
-import kotlinx.serialization.Serializable
 import java.text.Normalizer
 
-@Serializable(with = SpecialtySerializer::class)
 enum class Specialty(val specialtyEng: String, val specialtyEsp: String) {
     ORTHOPEDICS("Orthopedics", "Ortopedia"),
-    CARDIOLOGY("Cardiology","Cardiologia"),
+    CARDIOLOGY("Cardiology", "Cardiologia"),
     GYNAECOLOGY("Gynaecology", "Ginecologia"),
     PEDIATRICS("Pediatrics", "Pediatria");
 
