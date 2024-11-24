@@ -13,7 +13,7 @@ data class RegisterPhysicianData(
     @field:NotBlank(message = "Name must not be empty.")
     val name: String,
 
-    val avatar: String? = null,
+    val avatar: String?,
 
     @field:NotBlank(message = "Email must not be empty.")
     @field:Email(message = "Email must be a valid format.")

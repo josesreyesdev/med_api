@@ -30,7 +30,7 @@ data class AddressData(
     val externalNumber: String,
 
     @JsonAlias("internalNumber", "internal_number", "int_number")
-    val internalNumber: String? = null,
+    val internalNumber: String?,
 
-    val complement: String? = null
+    val complement: String?
 )
