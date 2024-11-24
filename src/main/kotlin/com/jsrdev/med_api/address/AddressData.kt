@@ -3,7 +3,6 @@ package com.jsrdev.med_api.address
 import com.fasterxml.jackson.annotation.JsonAlias
 import jakarta.validation.constraints.NotBlank
 
-
 data class AddressData(
     @field:NotBlank(message = "Street must not be empty.")
     val street: String,

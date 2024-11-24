@@ -17,9 +17,20 @@ data class Patient(
     val name: String,
     val avatar: String?,
     val email: String,
-    val document: String,
+    @Column(name = "document_identity")
+    val documentIdentity: String,
     @Column(name = "phone_number")
     val phoneNumber: String,
     @Embedded
     val address: Address
-)
+) {
+    constructor(patientData: RegisterPatientData) : this(
+        id = null,
+        name = patientData.name,
+        avatar = patientData.avatar,
+        email = patientData.email,
+        documentIdentity = patientData.documentIdentity,
+        phoneNumber = patientData.phoneNumber,
+        address = Address(patientData.addressData)
+    )
+}
