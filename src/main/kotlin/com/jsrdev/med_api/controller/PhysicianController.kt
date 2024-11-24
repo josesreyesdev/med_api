@@ -8,6 +8,8 @@ import com.jsrdev.med_api.physician.PhysicianResponse
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -26,7 +28,7 @@ class PhysicianController @Autowired constructor(
     }
 
     @GetMapping
-    fun getPhysicians(): List<PhysicianResponse> =
-        physicianRepository.findAll()
+    fun getPhysicians(pagination: Pageable): Page<PhysicianResponse> =
+        physicianRepository.findAll(pagination)
             .map { it.toResponse() }
 }
