@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.data.web.PagedResourcesAssembler
 import org.springframework.hateoas.EntityModel
 import org.springframework.hateoas.PagedModel
@@ -27,7 +28,7 @@ class PatientController @Autowired constructor(
 
     @GetMapping
     fun getPatients(
-        pagination: Pageable,
+        @PageableDefault(size = 15) pagination: Pageable,
         assembler: PagedResourcesAssembler<PatientResponse>
     ): PagedModel<EntityModel<PatientResponse>> {
 
