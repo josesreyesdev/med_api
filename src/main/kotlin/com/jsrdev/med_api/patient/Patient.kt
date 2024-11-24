@@ -13,7 +13,7 @@ import jakarta.persistence.Embedded
 @Table(name = "patients")
 data class Patient(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
+    val id: Long?,
     val name: String,
     val avatar: String?,
     val email: String,
@@ -24,7 +24,7 @@ data class Patient(
     @Embedded
     val address: Address
 ) {
-    constructor(patientData: RegisterPatientData) : this(
+    constructor(patientData: PatientRequest) : this(
         id = null,
         name = patientData.name,
         avatar = patientData.avatar,
