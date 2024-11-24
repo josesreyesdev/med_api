@@ -2,7 +2,7 @@ package com.jsrdev.med_api.controller
 
 import com.jsrdev.med_api.physician.Physician
 import com.jsrdev.med_api.physician.PhysicianRepository
-import com.jsrdev.med_api.physician.RegisterPhysicianData
+import com.jsrdev.med_api.physician.PhysicianRequest
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,7 +19,7 @@ class PhysicianController @Autowired constructor(
 
     @PostMapping
     @Transactional
-    fun createPhysician(@Valid @RequestBody register: RegisterPhysicianData) {
-        physicianRepository.save(Physician(register))
+    fun createPhysician(@Valid @RequestBody physicianRequest: PhysicianRequest) {
+        physicianRepository.save(Physician(physicianRequest))
     }
 }

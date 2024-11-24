@@ -24,7 +24,7 @@ data class Patient(
     @Embedded
     val address: Address
 ) {
-    constructor(patientData: RegisterPatientData) : this(
+    constructor(patientData: PatientRequest) : this(
         id = null,
         name = patientData.name,
         avatar = patientData.avatar,

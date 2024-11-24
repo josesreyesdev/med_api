@@ -1,6 +1,6 @@
 package com.jsrdev.med_api.controller
 
-import com.jsrdev.med_api.patient.RegisterPatientData
+import com.jsrdev.med_api.patient.PatientRequest
 import com.jsrdev.med_api.patient.Patient
 import com.jsrdev.med_api.patient.PatientRespository
 import jakarta.transaction.Transactional
@@ -18,7 +18,7 @@ class PatientController @Autowired constructor(
 ) {
     @PostMapping
     @Transactional
-    fun createPatient(@RequestBody @Valid registerPatient: RegisterPatientData)  {
-        patientRespository.save(Patient(registerPatient))
+    fun createPatient(@RequestBody @Valid patientRequest: PatientRequest)  {
+        patientRespository.save(Patient(patientRequest))
     }
 }
