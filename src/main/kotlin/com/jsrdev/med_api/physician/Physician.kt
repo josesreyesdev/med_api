@@ -8,10 +8,10 @@ import jakarta.persistence.*
 data class Physician(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?,
-    val name: String,
+    var name: String,
     val avatar: String?,
     val email: String,
-    val document: String,
+    var document: String,
     @Column(name = "phone_number")
     val phoneNumber: String,
     @Enumerated(EnumType.STRING)
