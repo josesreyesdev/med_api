@@ -12,6 +12,7 @@ object PhysicianMapper {
 
     fun UpdatePhysician.toPhysician(p: Physician) {
         p.name = this.name ?: p.name
+        p.avatar = this.avatar ?: p.avatar
         p.document = this.document ?: p.document
         this.addressData?.let { ad ->
             p.address.street = ad.street

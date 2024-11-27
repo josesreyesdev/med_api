@@ -9,7 +9,7 @@ data class Physician(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?,
     var name: String,
-    val avatar: String?,
+    var avatar: String?,
     val email: String,
     var document: String,
     @Column(name = "phone_number")
