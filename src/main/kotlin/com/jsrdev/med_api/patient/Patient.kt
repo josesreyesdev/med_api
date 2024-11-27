@@ -14,13 +14,13 @@ import jakarta.persistence.Embedded
 data class Patient(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?,
-    val name: String,
-    val avatar: String?,
+    var name: String,
+    var avatar: String?,
     val email: String,
     @Column(name = "document_identity")
     val documentIdentity: String,
     @Column(name = "phone_number")
-    val phoneNumber: String,
+    var phoneNumber: String,
     @Embedded
     val address: Address
 ) {

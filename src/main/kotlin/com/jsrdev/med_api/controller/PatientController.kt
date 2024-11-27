@@ -1,14 +1,13 @@
 package com.jsrdev.med_api.controller
 
-import com.jsrdev.med_api.patient.Patient
+import com.jsrdev.med_api.patient.*
 import com.jsrdev.med_api.patient.PatientMapper.toResponse
-import com.jsrdev.med_api.patient.PatientRepository
-import com.jsrdev.med_api.patient.PatientRequest
-import com.jsrdev.med_api.patient.PatientResponse
+import com.jsrdev.med_api.patient.PatientMapper.updateFrom
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Pageable
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.data.web.PageableDefault
 import org.springframework.data.web.PagedResourcesAssembler
 import org.springframework.hateoas.EntityModel
@@ -36,5 +35,14 @@ class PatientController @Autowired constructor(
             .map { it.toResponse() }
 
         return assembler.toModel(patientsPage)
+    }
+
+    @PutMapping
+    @Transactional
+    fun updatePatient(@Valid @RequestBody updatePatient: UpdatePatient) {
+        val patient: Patient = patientRepository.findByIdOrNull(updatePatient.id)
+            ?: throw IllegalArgumentException("Physician not found with this id: ${updatePatient.id}")
+
+        patient.updateFrom(updatePatient)
     }
 }
