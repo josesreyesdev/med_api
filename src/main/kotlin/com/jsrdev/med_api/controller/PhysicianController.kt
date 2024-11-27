@@ -1,8 +1,8 @@
 package com.jsrdev.med_api.controller
 
 import com.jsrdev.med_api.physician.*
-import com.jsrdev.med_api.physician.PhysicianMapper.toPhysician
 import com.jsrdev.med_api.physician.PhysicianMapper.toResponse
+import com.jsrdev.med_api.physician.PhysicianMapper.updateFrom
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
@@ -34,6 +34,6 @@ class PhysicianController @Autowired constructor(
         val physician: Physician = physicianRepository.findByIdOrNull(updatePhysician.id)
             ?: throw IllegalArgumentException("Physician not found with this id: ${updatePhysician.id}")
 
-        updatePhysician.toPhysician(physician)
+        physician.updateFrom(updatePhysician)
     }
 }
