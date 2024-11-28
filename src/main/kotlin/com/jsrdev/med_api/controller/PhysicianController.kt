@@ -25,7 +25,7 @@ class PhysicianController @Autowired constructor(
 
     @GetMapping
     fun getPhysicians(@PageableDefault(size = 15) pagination: Pageable): Page<PhysicianResponse> =
-        physicianRepository.findAll(pagination)
+        physicianRepository.findByActiveTrue(pagination)
             .map { it.toResponse() }
 
     @PutMapping
@@ -37,11 +37,20 @@ class PhysicianController @Autowired constructor(
         physician.updateFrom(updatePhysician)
     }
 
+    /* delete from db
     @DeleteMapping("/{id}")
     @Transactional
     fun deletePhysician(@PathVariable id: Long) {
         val physician: Physician = physicianRepository.findByIdOrNull(id)
             ?: throw IllegalArgumentException("Physician not found with this id: $id")
         physicianRepository.delete(physician)
+    } */
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    fun deletePhysician(@PathVariable id: Long) {
+        val physician: Physician = physicianRepository.findByIdOrNull(id)
+            ?: throw IllegalArgumentException("Physician not found with this id: $id")
+        physician.deactivate()
     }
 }
