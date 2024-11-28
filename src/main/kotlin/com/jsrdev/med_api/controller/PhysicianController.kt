@@ -36,4 +36,12 @@ class PhysicianController @Autowired constructor(
 
         physician.updateFrom(updatePhysician)
     }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    fun deletePhysician(@PathVariable id: Long) {
+        val physician: Physician = physicianRepository.findByIdOrNull(id)
+            ?: throw IllegalArgumentException("Physician not found with this id: $id")
+        physicianRepository.delete(physician)
+    }
 }
