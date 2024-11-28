@@ -1,0 +1,1 @@
+ALTER TABLE physicians MODIFY active tinyint NOT NULL

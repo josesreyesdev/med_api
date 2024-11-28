@@ -8,14 +8,15 @@ import jakarta.persistence.*
 data class Physician(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?,
-    val name: String,
-    val avatar: String?,
+    var name: String,
+    var avatar: String?,
     val email: String,
-    val document: String,
+    var document: String,
     @Column(name = "phone_number")
     val phoneNumber: String,
     @Enumerated(EnumType.STRING)
     val specialty: Specialty,
+    var active: Boolean,
     @Embedded
     val address: Address
 ) {
@@ -27,6 +28,7 @@ data class Physician(
         document = registerData.document,
         phoneNumber = registerData.phoneNumber,
         specialty = registerData.specialty,
+        active = true,
         address = Address(registerData.addressData)
     )
 
@@ -38,5 +40,9 @@ data class Physician(
 
     override fun hashCode(): Int {
         return id.hashCode()
+    }
+
+    fun deactivate() {
+        this.active = false
     }
 }

@@ -5,20 +5,20 @@ import jakarta.persistence.Embeddable
 
 @Embeddable
 data class Address(
-    val street: String,
+    var street: String,
     @Column(name = "state_or_province")
-    val stateOrProvince: String,
+    var stateOrProvince: String,
     @Column(name = "municipality_or_delegation")
-    val municipalityOrDelegation: String,
-    val city: String,
+    var municipalityOrDelegation: String,
+    var city: String,
     @Column(name = "zip_code")
-    val zipCode: String,
-    val country: String,
+    var zipCode: String,
+    var country: String,
     @Column(name = "external_number")
-    val externalNumber: String,
+    var externalNumber: String,
     @Column(name = "internal_number")
-    val internalNumber: String?,
-    val complement: String?
+    var internalNumber: String?,
+    var complement: String?
 ) {
     constructor(addressData: AddressData) : this(
         street = addressData.street,
