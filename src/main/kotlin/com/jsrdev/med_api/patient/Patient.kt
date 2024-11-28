@@ -21,6 +21,7 @@ data class Patient(
     val documentIdentity: String,
     @Column(name = "phone_number")
     var phoneNumber: String,
+    var active: Boolean,
     @Embedded
     val address: Address
 ) {
@@ -31,6 +32,11 @@ data class Patient(
         email = patientData.email,
         documentIdentity = patientData.documentIdentity,
         phoneNumber = patientData.phoneNumber,
+        active = true,
         address = Address(patientData.addressData)
     )
+
+    fun deactivate() {
+        this.active = false
+    }
 }

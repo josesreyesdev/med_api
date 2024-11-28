@@ -31,7 +31,7 @@ class PatientController @Autowired constructor(
         assembler: PagedResourcesAssembler<PatientResponse>
     ): PagedModel<EntityModel<PatientResponse>> {
 
-        val patientsPage = patientRepository.findAll(pagination)
+        val patientsPage = patientRepository.findByActiveTrue(pagination)
             .map { it.toResponse() }
 
         return assembler.toModel(patientsPage)
@@ -41,8 +41,16 @@ class PatientController @Autowired constructor(
     @Transactional
     fun updatePatient(@Valid @RequestBody updatePatient: UpdatePatient) {
         val patient: Patient = patientRepository.findByIdOrNull(updatePatient.id)
-            ?: throw IllegalArgumentException("Physician not found with this id: ${updatePatient.id}")
+            ?: throw IllegalArgumentException("Patient not found with this id: ${updatePatient.id}")
 
         patient.updateFrom(updatePatient)
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    fun deletePatient(@PathVariable id: Long) {
+        val patient: Patient = patientRepository.findByIdOrNull(id)
+            ?: throw IllegalArgumentException("Patient not found with this id: $id")
+        patient.deactivate()
     }
 }
