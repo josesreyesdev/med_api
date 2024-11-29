@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
+import org.springframework.web.util.UriComponentsBuilder
 
 @RestController
 @RequestMapping("/api/patients")
@@ -24,8 +25,14 @@ class PatientController @Autowired constructor(
 ) {
     @PostMapping
     @Transactional
-    fun createPatient(@RequestBody @Valid patientRequest: PatientRequest) {
-        patientRepository.save(Patient(patientRequest))
+    fun createPatient(
+        @RequestBody @Valid patientRequest: PatientRequest,
+        uriComponentsBuilder: UriComponentsBuilder
+    ): ResponseEntity<PatientResponse> {
+        val patient: Patient = patientRepository.save(Patient(patientRequest))
+
+        val url = uriComponentsBuilder.path("/api/patients/{id}").buildAndExpand(patient.id).toUri()
+        return ResponseEntity.created(url).body(patient.toResponse())
     }
 
     @GetMapping
