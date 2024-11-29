@@ -12,7 +12,10 @@ import org.springframework.data.web.PageableDefault
 import org.springframework.data.web.PagedResourcesAssembler
 import org.springframework.hateoas.EntityModel
 import org.springframework.hateoas.PagedModel
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("/api/patients")
@@ -39,18 +42,23 @@ class PatientController @Autowired constructor(
 
     @PutMapping
     @Transactional
-    fun updatePatient(@Valid @RequestBody updatePatient: UpdatePatient) {
-        val patient: Patient = patientRepository.findByIdOrNull(updatePatient.id)
-            ?: throw IllegalArgumentException("Patient not found with this id: ${updatePatient.id}")
+    fun updatePatient(@Valid @RequestBody updatePatient: UpdatePatient): ResponseEntity<PatientResponse> {
+        val patient: Patient? = patientRepository.findByIdOrNull(updatePatient.id)
 
-        patient.updateFrom(updatePatient)
+        return patient?.let {
+            patient.updateFrom(updatePatient)
+            ResponseEntity.ok(patient.toResponse())
+        } ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found.")
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    fun deletePatient(@PathVariable id: Long) {
-        val patient: Patient = patientRepository.findByIdOrNull(id)
-            ?: throw IllegalArgumentException("Patient not found with this id: $id")
-        patient.deactivate()
+    fun deletePatient(@PathVariable id: Long): ResponseEntity<Boolean>? {
+        val patient: Patient? = patientRepository.findByIdOrNull(id)
+
+        return patient?.let {
+            patient.deactivate()
+            ResponseEntity.noContent().build()
+        } ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found.")
     }
 }
