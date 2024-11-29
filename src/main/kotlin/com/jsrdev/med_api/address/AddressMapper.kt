@@ -12,4 +12,17 @@ object AddressMapper {
         internalNumber = ad.internalNumber ?: this.internalNumber
         complement = ad.complement ?: this.complement
     }
+
+    fun Address.toResponse(): AddressData =
+        AddressData(
+            street = this.street,
+            stateOrProvince = this.stateOrProvince,
+            municipalityOrDelegation = this.municipalityOrDelegation,
+            city = this.city,
+            zipCode = this.zipCode,
+            country = this.country,
+            externalNumber = this.externalNumber,
+            internalNumber = this.internalNumber,
+            complement = this.complement
+        )
 }

@@ -1,5 +1,6 @@
 package com.jsrdev.med_api.physician
 
+import com.jsrdev.med_api.address.AddressMapper.toResponse
 import com.jsrdev.med_api.address.AddressMapper.updateFrom
 
 object PhysicianMapper {
@@ -9,7 +10,8 @@ object PhysicianMapper {
             name = this.name,
             specialty = this.specialty,
             document = this.document,
-            email = this.email
+            email = this.email,
+            address = this.address.toResponse()
         )
 
     fun Physician.updateFrom(p: UpdatePhysician) {
