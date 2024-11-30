@@ -39,12 +39,21 @@ class PatientController @Autowired constructor(
     fun getPatients(
         @PageableDefault(size = 15) pagination: Pageable,
         assembler: PagedResourcesAssembler<PatientResponse>
-    ): PagedModel<EntityModel<PatientResponse>> {
+    ): ResponseEntity<PagedModel<EntityModel<PatientResponse>>> {
 
         val patientsPage = patientRepository.findByActiveTrue(pagination)
             .map { it.toResponse() }
 
-        return assembler.toModel(patientsPage)
+        return ResponseEntity.ok(assembler.toModel(patientsPage))
+    }
+
+    @GetMapping("/{id}")
+    fun getPatient(@PathVariable id: Long): ResponseEntity<PatientResponse>{
+        val patient: Patient ? = patientRepository.findByIdOrNull(id)
+
+        return patient?.let {
+            ResponseEntity.ok(patient.toResponse())
+        } ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found.")
     }
 
     @PutMapping
