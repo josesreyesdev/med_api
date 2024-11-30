@@ -6,10 +6,12 @@ import com.jsrdev.med_api.physician.PhysicianMapper.updateFrom
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.data.web.PageableDefault
+import org.springframework.data.web.PagedResourcesAssembler
+import org.springframework.hateoas.EntityModel
+import org.springframework.hateoas.PagedModel
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -34,9 +36,24 @@ class PhysicianController @Autowired constructor(
     }
 
     @GetMapping
-    fun getPhysicians(@PageableDefault(size = 15) pagination: Pageable): Page<PhysicianResponse> =
-        physicianRepository.findByActiveTrue(pagination)
+    fun getPhysicians(
+        @PageableDefault(size = 15) pagination: Pageable,
+        assembler: PagedResourcesAssembler<PhysicianResponse>
+    ): ResponseEntity<PagedModel<EntityModel<PhysicianResponse>>> {
+        val physiciansPage = physicianRepository.findByActiveTrue(pagination)
             .map { it.toResponse() }
+
+        return ResponseEntity.ok(assembler.toModel(physiciansPage))
+    }
+
+    @GetMapping("/{id}")
+    fun getPhysician(@PathVariable id: Long): ResponseEntity<PhysicianResponse> {
+        val physician = physicianRepository.findByIdOrNull(id)
+
+        return physician?.let {
+            ResponseEntity.ok(physician.toResponse())
+        } ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Physician not found.")
+    }
 
     @PutMapping
     @Transactional
