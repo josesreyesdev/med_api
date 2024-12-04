@@ -1,15 +1,13 @@
-package com.jsrdev.med_api.physician
+package com.jsrdev.med_api.domain.patient
 
 import com.fasterxml.jackson.annotation.JsonAlias
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.jsrdev.med_api.address.AddressData
+import com.jsrdev.med_api.domain.address.AddressData
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Pattern
 
-data class PhysicianRequest(
+data class PatientRequest(
     @field:NotBlank(message = "Name must not be empty.")
     val name: String,
 
@@ -19,21 +17,16 @@ data class PhysicianRequest(
     @field:Email(message = "Email must be a valid format.")
     val email: String,
 
-    @field:NotBlank(message = "Document must not be empty.")
-    @field:Pattern(regexp = "\\d{4,9}", message = "Document must contain between 4 and 9 digits.")
-    val document: String,
+    @JsonAlias("document_identity", "documentIdentity", "document")
+    @field:NotBlank(message = "Document identity must not be empty.")
+    val documentIdentity: String,
 
-    @JsonAlias("phoneNumber", "phone_number")
+    @JsonAlias("phone_number", "phoneNumber")
     @field:NotBlank(message = "Phone number must not be empty.")
     val phoneNumber: String,
-
-    @JsonDeserialize(using = SpecialtyDeserializer::class)
-    @field:NotNull(message = "Specialty must not be null.")
-    val specialty: Specialty,
 
     @JsonAlias("address", "addressData", "address_data")
     @field:NotNull(message = "Address data must not be null.")
     @field:Valid
     val addressData: AddressData
 )
-

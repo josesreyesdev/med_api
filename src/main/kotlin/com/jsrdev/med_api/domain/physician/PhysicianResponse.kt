@@ -1,6 +1,6 @@
-package com.jsrdev.med_api.physician
+package com.jsrdev.med_api.domain.physician
 
-import com.jsrdev.med_api.address.AddressData
+import com.jsrdev.med_api.domain.address.AddressData
 
 data class PhysicianResponse(
     val id: Long,

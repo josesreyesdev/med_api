@@ -1,4 +1,4 @@
-package com.jsrdev.med_api.physician
+package com.jsrdev.med_api.domain.physician
 
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable

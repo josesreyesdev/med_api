@@ -1,4 +1,4 @@
-package com.jsrdev.med_api.core
+package com.jsrdev.med_api.domain.core
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext

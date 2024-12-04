@@ -1,7 +1,7 @@
-package com.jsrdev.med_api.patient
+package com.jsrdev.med_api.domain.patient
 
-import com.jsrdev.med_api.address.AddressMapper.toResponse
-import com.jsrdev.med_api.address.AddressMapper.updateFrom
+import com.jsrdev.med_api.domain.address.AddressMapper.toResponse
+import com.jsrdev.med_api.domain.address.AddressMapper.updateFrom
 
 object PatientMapper {
     fun Patient.toResponse() =

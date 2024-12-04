@@ -1,14 +1,13 @@
-package com.jsrdev.med_api.physician
+package com.jsrdev.med_api.domain.patient
 
 import com.fasterxml.jackson.annotation.JsonAlias
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.jsrdev.med_api.address.AddressData
-import com.jsrdev.med_api.core.NonEmptyLongDeserializer
+import com.jsrdev.med_api.domain.address.AddressData
+import com.jsrdev.med_api.domain.core.NonEmptyLongDeserializer
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Pattern
 
-data class UpdatePhysician(
+data class UpdatePatient(
     @JsonDeserialize(using = NonEmptyLongDeserializer::class)
     @field:NotNull(message = "Id must not be null.")
     val id: Long,
@@ -17,8 +16,8 @@ data class UpdatePhysician(
 
     val avatar: String?,
 
-    @field:Pattern(regexp = "\\d{4,9}", message = "Document must contain between 4 and 9 digits.")
-    val document: String?,
+    @JsonAlias("phone_number", "phoneNumber")
+    val phoneNumber: String?,
 
     @JsonAlias("address", "addressData", "address_data")
     @field:Valid
