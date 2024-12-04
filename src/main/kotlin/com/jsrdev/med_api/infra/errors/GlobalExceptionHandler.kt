@@ -3,6 +3,7 @@ package com.jsrdev.med_api.infra.errors
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.validation.FieldError
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -16,18 +17,21 @@ class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
-    fun handleValidationExceptions(ex: MethodArgumentNotValidException): ResponseEntity<Map<String, Any>> {
-        val errors = ex.bindingResult.fieldErrors.associate {
-            it.field to (it.defaultMessage ?: "Invalid value")
+    fun errorHandler400(ex: MethodArgumentNotValidException): ResponseEntity<Map<String, String?>> {
+        val errors = ex.bindingResult.fieldErrors.map { ErrorValidationData(it) }.associate {
+            it.field to it.error
         }
-        val response = mapOf(
-            "message" to "Validation failed",
-            "errors" to errors
-        )
-        return ResponseEntity.badRequest().body(response)
+        return ResponseEntity.badRequest().body(errors)
     }
 
     @ExceptionHandler(EntityNotFoundException::class)
     fun errorHandler404(ex: EntityNotFoundException): ResponseEntity<String> =
         ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
+
+    data class ErrorValidationData(val field: String, val error: String?) {
+        constructor(error: FieldError) : this(
+            field = error.field,
+            error = error.defaultMessage
+        )
+    }
 }
