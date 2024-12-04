@@ -1,4 +1,4 @@
-package com.jsrdev.med_api.physician
+package com.jsrdev.med_api.domain.physician
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext

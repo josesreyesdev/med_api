@@ -1,6 +1,6 @@
-package com.jsrdev.med_api.patient
+package com.jsrdev.med_api.domain.patient
 
-import com.jsrdev.med_api.address.Address
+import com.jsrdev.med_api.domain.address.Address
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
 import jakarta.persistence.Id

@@ -1,8 +1,8 @@
 package com.jsrdev.med_api.controller
 
-import com.jsrdev.med_api.patient.*
-import com.jsrdev.med_api.patient.PatientMapper.toResponse
-import com.jsrdev.med_api.patient.PatientMapper.updateFrom
+import com.jsrdev.med_api.domain.patient.*
+import com.jsrdev.med_api.domain.patient.PatientMapper.toResponse
+import com.jsrdev.med_api.domain.patient.PatientMapper.updateFrom
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
@@ -48,8 +48,8 @@ class PatientController @Autowired constructor(
     }
 
     @GetMapping("/{id}")
-    fun getPatient(@PathVariable id: Long): ResponseEntity<PatientResponse>{
-        val patient: Patient ? = patientRepository.findByIdOrNull(id)
+    fun getPatient(@PathVariable id: Long): ResponseEntity<PatientResponse> {
+        val patient: Patient? = patientRepository.findByIdOrNull(id)
 
         return patient?.let {
             ResponseEntity.ok(patient.toResponse())

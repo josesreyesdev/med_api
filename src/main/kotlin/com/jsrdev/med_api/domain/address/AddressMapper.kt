@@ -1,4 +1,4 @@
-package com.jsrdev.med_api.address
+package com.jsrdev.med_api.domain.address
 
 object AddressMapper {
     fun Address.updateFrom(ad: AddressData) {

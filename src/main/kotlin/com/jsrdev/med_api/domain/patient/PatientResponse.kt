@@ -1,6 +1,6 @@
-package com.jsrdev.med_api.patient
+package com.jsrdev.med_api.domain.patient
 
-import com.jsrdev.med_api.address.AddressData
+import com.jsrdev.med_api.domain.address.AddressData
 
 data class PatientResponse(
     val id: Long,

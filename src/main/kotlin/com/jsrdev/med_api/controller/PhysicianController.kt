@@ -1,8 +1,8 @@
 package com.jsrdev.med_api.controller
 
-import com.jsrdev.med_api.physician.*
-import com.jsrdev.med_api.physician.PhysicianMapper.toResponse
-import com.jsrdev.med_api.physician.PhysicianMapper.updateFrom
+import com.jsrdev.med_api.domain.physician.*
+import com.jsrdev.med_api.domain.physician.PhysicianMapper.toResponse
+import com.jsrdev.med_api.domain.physician.PhysicianMapper.updateFrom
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired

@@ -1,6 +1,6 @@
-package com.jsrdev.med_api.physician
+package com.jsrdev.med_api.domain.physician
 
-import com.jsrdev.med_api.address.Address
+import com.jsrdev.med_api.domain.address.Address
 import jakarta.persistence.*
 
 @Table(name = "physicians")
