@@ -1,5 +1,6 @@
 package com.jsrdev.med_api.infra.errors
 
+import jakarta.persistence.EntityNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -25,4 +26,8 @@ class GlobalExceptionHandler {
         )
         return ResponseEntity.badRequest().body(response)
     }
+
+    @ExceptionHandler(EntityNotFoundException::class)
+    fun errorHandler404(ex: EntityNotFoundException): ResponseEntity<String> =
+        ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
 }
