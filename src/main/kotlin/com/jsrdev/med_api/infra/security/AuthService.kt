@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 
-typealias ApplicationUser = com.jsrdev.med_api.domain.user.User
+typealias AppUser = com.jsrdev.med_api.domain.user.User
 
 @Service
 class AuthService(private val userRepository: UserRepository) : UserDetailsService {
@@ -16,7 +16,7 @@ class AuthService(private val userRepository: UserRepository) : UserDetailsServi
             ?.mapToUserDetails()
             ?: throw UsernameNotFoundException("Username not found")
 
-    private fun ApplicationUser.mapToUserDetails(): UserDetails =
+    private fun AppUser.mapToUserDetails(): UserDetails =
         User.builder()
             .username(this.login)
             .password(this.pass)
