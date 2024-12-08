@@ -14,3 +14,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+ # prevent the exception stack tracer
+server:
+  error:
+    include-stacktrace: never
