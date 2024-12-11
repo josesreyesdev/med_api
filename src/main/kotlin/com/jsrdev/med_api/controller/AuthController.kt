@@ -18,7 +18,9 @@ class AuthController(
 ) {
 
     @PostMapping
-    fun authenticate(@RequestBody @Valid authenticationRequest: AuthenticationRequest): ResponseEntity<AuthenticationResponse> {
+    fun authenticate(
+        @RequestBody @Valid authenticationRequest: AuthenticationRequest
+    ): ResponseEntity<AuthenticationResponse> {
         val token = UsernamePasswordAuthenticationToken(
             authenticationRequest.email,
             authenticationRequest.password
