@@ -19,3 +19,7 @@ spring:
 server:
   error:
     include-stacktrace: never
+
+# Config JWT
+jwt:
+  secret-key: ${JWT_KEY}
