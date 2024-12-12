@@ -2,23 +2,27 @@ package com.jsrdev.med_api.infra.security
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.auth0.jwt.exceptions.JWTCreationException
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
-
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 @Service
-class TokenService {
+class TokenService(jwtProperties: JwtProperties) {
 
-    fun generate(): String {
-        return try {
-            val algorithm: Algorithm = Algorithm.HMAC256("123456")
-            val token = JWT.create()
+    private val secretKey = jwtProperties.secretKey
+
+    fun generate(userDetails: UserDetails): String {
+        val algorithm: Algorithm = Algorithm.HMAC256(secretKey)
+
+        return JWT.create()
                 .withIssuer("med_api")
-                .withSubject("jsrdev")
+                .withSubject(userDetails.username)
+                .withExpiresAt(generateExpirationDate())
                 .sign(algorithm)
-            token
-        } catch (exception: JWTCreationException) {
-            throw RuntimeException()
-        }
     }
+
+    private fun generateExpirationDate(): Instant =
+        LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-06:00"))
 }
