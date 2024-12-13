@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import java.util.*
 
 @Service
 class TokenService(jwtProperties: JwtProperties) {
@@ -17,10 +18,11 @@ class TokenService(jwtProperties: JwtProperties) {
         val algorithm: Algorithm = Algorithm.HMAC256(secretKey)
 
         return JWT.create()
-                .withIssuer("med_api")
-                .withSubject(userDetails.username)
-                .withExpiresAt(generateExpirationDate())
-                .sign(algorithm)
+            .withIssuer("med_api")
+            .withSubject(userDetails.username)
+            .withIssuedAt(Date(System.currentTimeMillis()))
+            .withExpiresAt(generateExpirationDate())
+            .sign(algorithm)
     }
 
     private fun generateExpirationDate(): Instant =
