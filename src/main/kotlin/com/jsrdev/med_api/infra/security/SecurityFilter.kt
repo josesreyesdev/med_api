@@ -14,7 +14,23 @@ class SecurityFilter: OncePerRequestFilter() {
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        println("This filter is called")
+
+        val authHeader: String? = request.getHeader("Authorization")
+
+        if (authHeader.doesNotContainBearerToken()) {
+            filterChain.doFilter(request, response)
+            return
+        }
+
+        val jwtToken = authHeader!!.extractTokenValue()
+        println("JWT: $jwtToken")
+
         filterChain.doFilter(request, response)
     }
+
+    private fun String?.doesNotContainBearerToken(): Boolean =
+        this == null || !this.startsWith("Bearer")
+
+    private fun String.extractTokenValue(): String =
+        this.substringAfter("Bearer ")
 }
