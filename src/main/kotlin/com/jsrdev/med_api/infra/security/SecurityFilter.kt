@@ -3,11 +3,18 @@ package com.jsrdev.med_api.infra.security
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 
 @Component
-class SecurityFilter: OncePerRequestFilter() {
+class SecurityFilter(
+    private val authService: AuthService,
+    private val tokenService: TokenService
+): OncePerRequestFilter() {
 
     override fun doFilterInternal(
         request: HttpServletRequest,
@@ -23,9 +30,18 @@ class SecurityFilter: OncePerRequestFilter() {
         }
 
         val jwtToken = authHeader!!.extractTokenValue()
-        println("JWT: $jwtToken")
+        val email = tokenService.extractSubject(jwtToken)
 
-        filterChain.doFilter(request, response)
+        println("JWT: $jwtToken, \nsubject = $email")
+
+        if (email != null && SecurityContextHolder.getContext().authentication == null) {
+            val foundUser = authService.loadUserByUsername(email)
+
+            if (tokenService.isValid(jwtToken, foundUser))
+                updateContext(foundUser, request)
+
+            filterChain.doFilter(request, response)
+        }
     }
 
     private fun String?.doesNotContainBearerToken(): Boolean =
@@ -33,4 +49,12 @@ class SecurityFilter: OncePerRequestFilter() {
 
     private fun String.extractTokenValue(): String =
         this.substringAfter("Bearer ")
+
+    private fun updateContext(foundUser: UserDetails, request: HttpServletRequest) {
+        val authToken = UsernamePasswordAuthenticationToken(foundUser, null, foundUser.authorities)
+
+        authToken.details = WebAuthenticationDetailsSource().buildDetails(request)
+
+        SecurityContextHolder.getContext().authentication = authToken
+    }
 }
