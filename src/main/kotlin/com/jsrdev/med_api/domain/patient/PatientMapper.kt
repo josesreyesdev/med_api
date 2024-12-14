@@ -8,6 +8,7 @@ object PatientMapper {
         PatientResponse(
             id = this.id!!,
             name = this.name,
+            avatar = this.avatar,
             documentIdentity = this.documentIdentity,
             email = this.email,
             address = this.address.toResponse()
