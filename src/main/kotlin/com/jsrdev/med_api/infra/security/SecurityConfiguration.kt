@@ -2,25 +2,37 @@ package com.jsrdev.med_api.infra.security
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfiguration {
 
     @Bean
-    fun securityFilterChain(httpSecurity: HttpSecurity): SecurityFilterChain =
+    fun securityFilterChain(
+        httpSecurity: HttpSecurity,
+        securityFilter: SecurityFilter
+    ): SecurityFilterChain {
         httpSecurity.csrf { it.disable() }
             .authorizeHttpRequests {
                 it.requestMatchers("/api/auth").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
+                    .requestMatchers(HttpMethod.DELETE, "/api/physicians").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/api/patients").hasRole("ADMIN")
+                    .requestMatchers("/api/user**").hasRole("ADMIN")
                     .anyRequest()
                     .fullyAuthenticated()
             }
             .sessionManagement {
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
-            .build()
+            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter::class.java)
+
+        return httpSecurity.build()
+    }
 }
