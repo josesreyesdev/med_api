@@ -22,9 +22,9 @@ class SecurityConfiguration {
             .authorizeHttpRequests {
                 it.requestMatchers("/api/auth").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
-                    .requestMatchers(HttpMethod.DELETE, "/api/physicians").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.DELETE, "/api/patients").hasRole("ADMIN")
-                    .requestMatchers("/api/user**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/api/physicians", "/api/patients")
+                    .hasRole("ADMIN")
+                    .requestMatchers("/api/users**").hasRole("ADMIN")
                     .anyRequest()
                     .fullyAuthenticated()
             }

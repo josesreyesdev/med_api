@@ -14,7 +14,7 @@ data class User(
     val pass: String,
     @Enumerated(EnumType.STRING)
     val role: Role
-): UserDetails {
+) : UserDetails {
     override fun getAuthorities(): Collection<GrantedAuthority> {
         return listOf(SimpleGrantedAuthority("ROLE_${role.name}"))
     }
