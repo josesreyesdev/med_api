@@ -14,10 +14,15 @@ data class User(
     val pass: String,
     @Enumerated(EnumType.STRING)
     val role: Role
-): UserDetails {
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return mutableListOf(SimpleGrantedAuthority("ROLE_${role.name}"))
+) : UserDetails {
+    override fun getAuthorities(): Collection<GrantedAuthority> {
+        return listOf(SimpleGrantedAuthority("ROLE_${role.name}"))
     }
+
+    /*in constructor => val roles: List<Role>
+    fun getAuthorities(): Collection<GrantedAuthority> {
+        return roles.map { role -> SimpleGrantedAuthority(role.name) }
+    } */
 
     override fun getPassword(): String = this.pass
 

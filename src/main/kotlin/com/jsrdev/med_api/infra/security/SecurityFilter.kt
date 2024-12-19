@@ -51,6 +51,8 @@ class SecurityFilter(
         this.substringAfter("Bearer ")
 
     private fun updateContext(foundUser: UserDetails, request: HttpServletRequest) {
+        println("Roles for user ${foundUser.username}: ${foundUser.authorities}")
+
         val authToken = UsernamePasswordAuthenticationToken(foundUser, null, foundUser.authorities)
 
         authToken.details = WebAuthenticationDetailsSource().buildDetails(request)
