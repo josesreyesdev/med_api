@@ -17,13 +17,19 @@ class ConsultService(
     fun addConsult(data: ConsultRequest) {
 
         var physician: Physician? = null
-        data.idPhysician?.let {
+        if (
+            data.idPhysician != null &&
+            !physicianRepository.existsById(data.idPhysician) &&
+            physicianRepository.findPhysicianByActiveTrue(data.idPhysician)
+        ) {
+
             physician = physicianRepository.findByIdOrNull(data.idPhysician)
-                ?: throw ValidateException("Physician id: ${data.idPhysician} not found")
+                ?: throw ValidateException("Physician id: ${data.idPhysician} not found in DB or is not active")
         }
 
+
         val patient = patientRepository.findByIdOrNull(data.idPatient)
-            ?: throw IllegalArgumentException("Patient id: ${data.idPatient} not found")
+            ?: throw IllegalArgumentException("Patient id: ${data.idPatient} not found in DB")
 
         val consult = Consult(
             id = null,
@@ -36,6 +42,12 @@ class ConsultService(
     }
 
     private fun chooseAPhysician(data: ConsultRequest): Physician {
-        TODO("Not yet implemented")
+        data.specialty?.let {
+            return physicianRepository
+                .chooseARandomPhysicianAvailableOnTheDate(data.specialty, data.date)
+                ?: throw ValidateException("No physician available for this specialty")
+        } ?: throw ValidateException(
+            "It´s necessary to choose a specialty when you don't send a physician"
+        )
     }
 }
