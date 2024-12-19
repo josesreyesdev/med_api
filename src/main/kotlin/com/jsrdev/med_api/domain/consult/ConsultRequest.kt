@@ -13,7 +13,7 @@ data class ConsultRequest(
     @JsonAlias("idPhysician", "id_physician")
     val idPhysician: Long?,
 
-    @field:Future
+    @field:Future //@field:JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     @field:NotNull(message = "date must not be null.")
     val date: LocalDateTime
 )
