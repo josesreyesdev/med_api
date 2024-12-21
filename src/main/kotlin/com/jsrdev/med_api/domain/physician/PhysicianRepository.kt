@@ -13,7 +13,7 @@ interface PhysicianRepository : JpaRepository<Physician, Long> {
     @Query("""
         SELECT p FROM Physician p
         WHERE p.active = true
-        AND p.specialty = : specialty 
+        AND p.specialty = :specialty 
         AND p.id NOT IN(
             SELECT c.physicianId.id FROM Consult c 
             WHERE c.date = :date
@@ -24,10 +24,9 @@ interface PhysicianRepository : JpaRepository<Physician, Long> {
     fun chooseARandomPhysicianAvailableOnTheDate(specialty: Specialty, date: LocalDateTime): Physician?
 
     @Query("""
-        SELECT CASE WHEN COUNT(p) > 0 THEN true ELSE false END FROM Physician p
-        WHERE p.id = :idPhysician 
-        AND p.active = true
-    """)
-    fun findPhysicianByActiveTrue(@Param("idPhysician") idPhysician: Long): Boolean
+                SELECT p.active FROM Physician p
+                WHERE p.id = :idPhysician
+            """)
+    fun findActiveById(@Param("idPhysician") idPhysician: Long): Boolean
 
 }
