@@ -19,5 +19,14 @@ data class Consult(
     @JoinColumn(name = "patient_id")
     val patientId: Patient,
 
-    val date: LocalDateTime
-)
+    val date: LocalDateTime,
+
+    @Column(name = "cancellation_reason")
+    @Enumerated(EnumType.STRING)
+    var cancellationReason: CancellationReason?
+) {
+
+    fun cancel(cancellationReason: CancellationReason) {
+        this.cancellationReason = cancellationReason
+    }
+}

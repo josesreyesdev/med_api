@@ -23,7 +23,8 @@ class ConsultService(
             id = null,
             physicianId = chooseAPhysician(data),
             patientId = patient,
-            date = data.date
+            date = data.date,
+            cancellationReason = null
         )
 
         consultRepository.save(consult)
@@ -39,7 +40,6 @@ class ConsultService(
             }
             return physicianRepository.findByIdOrNull(id)
                 ?: throw ValidateException("The physician with ID: $id was not found in the database or is inactive")
-
         }
 
         val specialty = data.specialty
@@ -47,5 +47,15 @@ class ConsultService(
 
         return physicianRepository.chooseARandomPhysicianAvailableOnTheDate(specialty, data.date)
             ?: throw ValidateException("No available physicians were found for the specified specialty and date.")
+    }
+
+    fun cancellationOfConsultation(cancelData: CancellationRequest) {
+        if (!consultRepository.existsById(cancelData.id)) {
+            throw ValidateException("The specified consult (ID: ${cancelData.id}) does not exist in the database.")
+        }
+
+        val consult: Consult = consultRepository.getReferenceById(cancelData.id)
+
+        consult.cancel(cancelData.cancellationReason)
     }
 }
