@@ -10,17 +10,19 @@ import java.time.LocalDateTime
 interface PhysicianRepository : JpaRepository<Physician, Long> {
     fun findByActiveTrue(pagination: Pageable): Page<Physician>
 
-    @Query("""
+    @Query(
+        """
         SELECT p FROM Physician p
         WHERE p.active = true
         AND p.specialty = :specialty 
         AND p.id NOT IN(
-            SELECT c.physicianId.id FROM Consult c 
+            SELECT c.physician.id FROM Consult c 
             WHERE c.date = :date
         )
         ORDER BY rand()
         LIMIT 1
-    """)
+    """
+    )
     fun chooseARandomPhysicianAvailableOnTheDate(specialty: Specialty, date: LocalDateTime): Physician?
 
     @Query("""
