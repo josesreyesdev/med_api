@@ -14,11 +14,11 @@ data class Consult(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "physician_id")
-    val physicianId: Physician,
+    val physician: Physician,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
-    val patientId: Patient,
+    val patient: Patient,
 
     val date: LocalDateTime,
 

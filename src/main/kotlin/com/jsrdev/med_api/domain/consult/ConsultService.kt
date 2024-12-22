@@ -22,8 +22,8 @@ class ConsultService(
 
         val consult = Consult(
             id = null,
-            physicianId = chooseAPhysician(data),
-            patientId = patient,
+            physician = chooseAPhysician(data),
+            patient = patient,
             date = data.date,
             cancellationReason = null
         )
