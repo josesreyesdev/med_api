@@ -1,5 +1,6 @@
 package com.jsrdev.med_api.domain.consult
 
+import com.jsrdev.med_api.domain.consult.cancel.CancellationRequest
 import com.jsrdev.med_api.domain.patient.PatientRepository
 import com.jsrdev.med_api.domain.physician.Physician
 import com.jsrdev.med_api.domain.physician.PhysicianRepository

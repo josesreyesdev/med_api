@@ -1,6 +1,6 @@
 package com.jsrdev.med_api.controller
 
-import com.jsrdev.med_api.domain.consult.CancellationRequest
+import com.jsrdev.med_api.domain.consult.cancel.CancellationRequest
 import com.jsrdev.med_api.domain.consult.ConsultRequest
 import com.jsrdev.med_api.domain.consult.ConsultResponse
 import com.jsrdev.med_api.domain.consult.ConsultService

@@ -1,4 +1,4 @@
-package com.jsrdev.med_api.domain.consult
+package com.jsrdev.med_api.domain.consult.cancel
 
 import com.fasterxml.jackson.annotation.JsonAlias
 import jakarta.validation.constraints.NotNull
