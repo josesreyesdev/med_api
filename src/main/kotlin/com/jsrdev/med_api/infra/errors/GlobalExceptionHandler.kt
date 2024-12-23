@@ -1,5 +1,6 @@
 package com.jsrdev.med_api.infra.errors
 
+import com.jsrdev.med_api.infra.exceptions.ValidateException
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -33,6 +34,11 @@ class GlobalExceptionHandler {
     @ExceptionHandler(EntityNotFoundException::class)
     fun errorHandler404(ex: EntityNotFoundException): ResponseEntity<String> =
         ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
+
+    @ExceptionHandler(ValidateException::class)
+    fun errorHandlerValidate(ex: ValidateException): ResponseEntity<String> {
+        return ResponseEntity.badRequest().body(ex.message)
+    }
 
     data class ErrorValidationData(val field: String, val error: String?) {
         constructor(error: FieldError) : this(
