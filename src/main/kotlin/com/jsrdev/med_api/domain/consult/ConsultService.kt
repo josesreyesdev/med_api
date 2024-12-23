@@ -1,6 +1,7 @@
 package com.jsrdev.med_api.domain.consult
 
 import com.jsrdev.med_api.domain.consult.cancel.CancellationRequest
+import com.jsrdev.med_api.domain.consult.validations.ConsultationValidator
 import com.jsrdev.med_api.domain.patient.PatientRepository
 import com.jsrdev.med_api.domain.physician.Physician
 import com.jsrdev.med_api.domain.physician.PhysicianRepository
@@ -12,20 +13,27 @@ import org.springframework.stereotype.Service
 class ConsultService(
     private val physicianRepository: PhysicianRepository,
     private val patientRepository: PatientRepository,
-    private val consultRepository: ConsultRepository
+    private val consultRepository: ConsultRepository,
+    private val validators: List<ConsultationValidator>
 ) {
 
     fun addConsult(data: ConsultRequest) {
+
+        /**
+         *  validators => it´s part of strategy pattern and SOLID principles:
+         *  1.- Single responsibility
+         *  2.- Open-closed
+         *  3.- Dependency Inversion
+         */
+        validators.forEach { v -> v.validate(data) }
 
         val patient = patientRepository.findByIdOrNull(data.idPatient)
             ?: throw IllegalArgumentException("Patient id: ${data.idPatient} not found in DB")
 
         val consult = Consult(
-            id = null,
             physician = chooseAPhysician(data),
             patient = patient,
-            date = data.date,
-            cancellationReason = null
+            date = data.date
         )
 
         consultRepository.save(consult)

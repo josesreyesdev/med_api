@@ -2,16 +2,18 @@ package com.jsrdev.med_api.domain.consult.validations
 
 import com.jsrdev.med_api.domain.consult.ConsultRequest
 import com.jsrdev.med_api.infra.exceptions.ValidateException
+import org.springframework.stereotype.Component
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 
-class HoursOfOperation {
+@Component
+class HoursOfOperation : ConsultationValidator{
 
     /*
     * verify that it is not Sunday and that you can only consult
     * from Monday to Saturday from 7 am to 7 pm.
     * */
-    fun validate(data: ConsultRequest) {
+    override fun validate(data: ConsultRequest) {
         val consultDate: LocalDateTime = data.date
 
         val sunday: Boolean = consultDate.dayOfWeek.equals(DayOfWeek.SUNDAY)

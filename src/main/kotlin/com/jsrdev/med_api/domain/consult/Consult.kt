@@ -27,6 +27,14 @@ data class Consult(
     var cancellationReason: CancellationReason?
 ) {
 
+    constructor(physician: Physician, patient: Patient, date: LocalDateTime) : this(
+        id = null,
+        physician = physician,
+        patient = patient,
+        date = date,
+        cancellationReason = null
+    )
+
     fun cancel(cancellationReason: CancellationReason) {
         this.cancellationReason = cancellationReason
     }

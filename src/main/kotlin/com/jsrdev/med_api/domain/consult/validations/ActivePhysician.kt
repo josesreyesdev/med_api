@@ -3,10 +3,14 @@ package com.jsrdev.med_api.domain.consult.validations
 import com.jsrdev.med_api.domain.consult.ConsultRequest
 import com.jsrdev.med_api.domain.physician.PhysicianRepository
 import com.jsrdev.med_api.infra.exceptions.ValidateException
+import org.springframework.stereotype.Component
 
-class ActivePhysician(private val physicianRepository: PhysicianRepository) {
+@Component
+class ActivePhysician(
+    private val physicianRepository: PhysicianRepository
+) : ConsultationValidator {
 
-    fun validate(data: ConsultRequest) {
+    override fun validate(data: ConsultRequest) {
 
         if (data.idPhysician == null) return
 
