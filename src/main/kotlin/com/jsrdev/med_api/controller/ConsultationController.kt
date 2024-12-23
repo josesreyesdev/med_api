@@ -1,5 +1,6 @@
 package com.jsrdev.med_api.controller
 
+import com.jsrdev.med_api.domain.consult.Consult
 import com.jsrdev.med_api.domain.consult.cancel.CancellationRequest
 import com.jsrdev.med_api.domain.consult.ConsultRequest
 import com.jsrdev.med_api.domain.consult.ConsultResponse
@@ -17,9 +18,9 @@ class ConsultationController(
 
     @PostMapping
     @Transactional
-    fun add(@RequestBody @Valid consult: ConsultRequest): ResponseEntity<ConsultResponse> {
-        consultService.addConsult(consult)
-        return ResponseEntity.ok(ConsultResponse(null, null, null, null))
+    fun add(@RequestBody @Valid consultRequest: ConsultRequest): ResponseEntity<ConsultResponse> {
+        val consult: Consult = consultService.addConsult(consultRequest)
+        return ResponseEntity.ok(ConsultResponse(consult.id, consult.physician.id, consult.patient.id, consult.date))
     }
 
     @DeleteMapping()

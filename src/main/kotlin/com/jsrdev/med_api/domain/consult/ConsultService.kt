@@ -17,7 +17,7 @@ class ConsultService(
     private val validators: List<ConsultationValidator>
 ) {
 
-    fun addConsult(data: ConsultRequest) {
+    fun addConsult(data: ConsultRequest): Consult {
 
         /**
          *  validators => it´s part of strategy pattern and SOLID principles:
@@ -36,7 +36,7 @@ class ConsultService(
             date = data.date
         )
 
-        consultRepository.save(consult)
+        return consultRepository.save(consult)
     }
 
     private fun chooseAPhysician(data: ConsultRequest): Physician {
