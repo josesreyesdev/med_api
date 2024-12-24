@@ -2,7 +2,7 @@ package com.jsrdev.med_api.controller
 
 import com.jsrdev.med_api.domain.consult.Consult
 import com.jsrdev.med_api.domain.consult.ConsultMapper.toResponse
-import com.jsrdev.med_api.domain.consult.cancel.CancellationRequest
+import com.jsrdev.med_api.domain.consult.validations.cancel.CancellationRequest
 import com.jsrdev.med_api.domain.consult.ConsultRequest
 import com.jsrdev.med_api.domain.consult.ConsultResponse
 import com.jsrdev.med_api.domain.consult.ConsultService

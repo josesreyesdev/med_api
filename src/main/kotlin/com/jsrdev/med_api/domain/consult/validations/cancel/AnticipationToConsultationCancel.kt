@@ -1,4 +1,4 @@
-package com.jsrdev.med_api.domain.consult.cancel
+package com.jsrdev.med_api.domain.consult.validations.cancel
 
 import com.jsrdev.med_api.domain.consult.Consult
 import com.jsrdev.med_api.domain.consult.ConsultRepository

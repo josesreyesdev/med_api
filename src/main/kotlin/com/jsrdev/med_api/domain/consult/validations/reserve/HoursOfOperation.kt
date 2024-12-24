@@ -1,4 +1,4 @@
-package com.jsrdev.med_api.domain.consult.validations
+package com.jsrdev.med_api.domain.consult.validations.reserve
 
 import com.jsrdev.med_api.domain.consult.ConsultRequest
 import com.jsrdev.med_api.infra.exceptions.IntegrityValidation
@@ -7,7 +7,7 @@ import java.time.DayOfWeek
 import java.time.LocalDateTime
 
 @Component
-class HoursOfOperation : ConsultationValidator{
+class HoursOfOperation : ConsultationValidator {
 
     /*
     * verify that it is not Sunday and that you can only consult

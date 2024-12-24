@@ -1,8 +1,8 @@
 package com.jsrdev.med_api.domain.consult
 
-import com.jsrdev.med_api.domain.consult.cancel.CancellationRequest
-import com.jsrdev.med_api.domain.consult.cancel.ConsultationCancellationValidator
-import com.jsrdev.med_api.domain.consult.validations.ConsultationValidator
+import com.jsrdev.med_api.domain.consult.validations.cancel.CancellationRequest
+import com.jsrdev.med_api.domain.consult.validations.cancel.ConsultationCancellationValidator
+import com.jsrdev.med_api.domain.consult.validations.reserve.ConsultationValidator
 import com.jsrdev.med_api.domain.patient.PatientRepository
 import com.jsrdev.med_api.domain.physician.Physician
 import com.jsrdev.med_api.domain.physician.PhysicianRepository

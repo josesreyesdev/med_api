@@ -1,6 +1,6 @@
 package com.jsrdev.med_api.domain.consult
 
-import com.jsrdev.med_api.domain.consult.cancel.CancellationReason
+import com.jsrdev.med_api.domain.consult.validations.cancel.CancellationReason
 import com.jsrdev.med_api.domain.patient.Patient
 import com.jsrdev.med_api.domain.physician.Physician
 import jakarta.persistence.*

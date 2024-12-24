@@ -1,4 +1,4 @@
-package com.jsrdev.med_api.domain.consult.validations
+package com.jsrdev.med_api.domain.consult.validations.reserve
 
 import com.jsrdev.med_api.domain.consult.ConsultRepository
 import com.jsrdev.med_api.domain.consult.ConsultRequest
