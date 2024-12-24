@@ -2,7 +2,7 @@ package com.jsrdev.med_api.domain.consult.validations
 
 import com.jsrdev.med_api.domain.consult.ConsultRequest
 import com.jsrdev.med_api.domain.physician.PhysicianRepository
-import com.jsrdev.med_api.infra.exceptions.ValidateException
+import com.jsrdev.med_api.infra.exceptions.IntegrityValidation
 import org.springframework.stereotype.Component
 
 @Component
@@ -17,7 +17,7 @@ class ActivePhysician(
         val isActivePhysician: Boolean = physicianRepository.findActiveById(data.idPhysician)
 
         if (!isActivePhysician) {
-            throw ValidateException("Consultation cannot be booked with inactive physician")
+            throw IntegrityValidation("Consultation cannot be booked with inactive physician")
         }
 
     }

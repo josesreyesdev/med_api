@@ -2,7 +2,7 @@ package com.jsrdev.med_api.domain.consult.validations
 
 import com.jsrdev.med_api.domain.consult.ConsultRepository
 import com.jsrdev.med_api.domain.consult.ConsultRequest
-import com.jsrdev.med_api.infra.exceptions.ValidateException
+import com.jsrdev.med_api.infra.exceptions.IntegrityValidation
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
@@ -23,7 +23,7 @@ class PatientConsultationDuringTheSameDay(
             .existsByPatientIdAndDateBetween(data.idPatient, firstSchedule, lastSchedule)
 
         if (patientWithConsultation) {
-            throw ValidateException("The patient already has an active consultation for this day")
+            throw IntegrityValidation("The patient already has an active consultation for this day")
         }
     }
 }

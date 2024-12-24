@@ -5,7 +5,7 @@ import com.jsrdev.med_api.domain.consult.validations.ConsultationValidator
 import com.jsrdev.med_api.domain.patient.PatientRepository
 import com.jsrdev.med_api.domain.physician.Physician
 import com.jsrdev.med_api.domain.physician.PhysicianRepository
-import com.jsrdev.med_api.infra.exceptions.ValidateException
+import com.jsrdev.med_api.infra.exceptions.IntegrityValidation
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -20,7 +20,7 @@ class ConsultService(
     fun addConsult(data: ConsultRequest): Consult {
 
         if (!patientRepository.existsById(data.idPatient)) {
-            throw ValidateException("The specified patient (ID: ${data.idPatient}) does not exist in the database.")
+            throw IntegrityValidation("The specified patient (ID: ${data.idPatient}) does not exist in the database.")
         }
 
         /**
@@ -46,25 +46,25 @@ class ConsultService(
     private fun chooseAPhysician(data: ConsultRequest): Physician {
         data.idPhysician?.let { id ->
             if (!physicianRepository.existsById(id)) {
-                throw ValidateException("The specified physician (ID: $id) does not exist in the database.")
+                throw IntegrityValidation("The specified physician (ID: $id) does not exist in the database.")
             }
             if (!physicianRepository.findActiveById(id)) {
-                throw ValidateException("The specified physician (ID: $id) is not active in the database.")
+                throw IntegrityValidation("The specified physician (ID: $id) is not active in the database.")
             }
             return physicianRepository.findByIdOrNull(id)
-                ?: throw ValidateException("The physician with ID: $id was not found in the database")
+                ?: throw IntegrityValidation("The physician with ID: $id was not found in the database")
         }
 
         val specialty = data.specialty
-            ?: throw ValidateException("A specialty must be specified when a physician id is not provided.")
+            ?: throw IntegrityValidation("A specialty must be specified when a physician id is not provided.")
 
         return physicianRepository.chooseARandomPhysicianAvailableOnTheDate(specialty, data.date)
-            ?: throw ValidateException("No available physicians were found for the specified specialty and date.")
+            ?: throw IntegrityValidation("No available physicians were found for the specified specialty and date.")
     }
 
     fun cancellationOfConsultation(cancelData: CancellationRequest) {
         if (!consultRepository.existsById(cancelData.id)) {
-            throw ValidateException("The specified consult (ID: ${cancelData.id}) does not exist in the database.")
+            throw IntegrityValidation("The specified consult (ID: ${cancelData.id}) does not exist in the database.")
         }
 
         val consult: Consult = consultRepository.getReferenceById(cancelData.id)

@@ -1,7 +1,7 @@
 package com.jsrdev.med_api.domain.consult.validations
 
 import com.jsrdev.med_api.domain.consult.ConsultRequest
-import com.jsrdev.med_api.infra.exceptions.ValidateException
+import com.jsrdev.med_api.infra.exceptions.IntegrityValidation
 import org.springframework.stereotype.Component
 import java.time.DayOfWeek
 import java.time.LocalDateTime
@@ -21,7 +21,7 @@ class HoursOfOperation : ConsultationValidator{
         val closingTime = data.date.hour > 18
 
         if (sunday || openingTime || closingTime)  {
-            throw ValidateException("Opening hours are Monday to Saturday from 07:00 to 18:00 hours")
+            throw IntegrityValidation("Opening hours are Monday to Saturday from 07:00 to 18:00 hours")
         }
     }
 }

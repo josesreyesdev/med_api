@@ -1,7 +1,7 @@
 package com.jsrdev.med_api.domain.consult.validations
 
 import com.jsrdev.med_api.domain.consult.ConsultRequest
-import com.jsrdev.med_api.infra.exceptions.ValidateException
+import com.jsrdev.med_api.infra.exceptions.IntegrityValidation
 import org.springframework.stereotype.Component
 import java.time.Duration
 import java.time.LocalDateTime
@@ -19,7 +19,7 @@ class AnticipationOfConsultations : ConsultationValidator {
         val differenceInMinutes = Duration.between(currentTime, consultationTime).toMinutes()
 
         if (differenceInMinutes < 30) {
-            throw ValidateException("Anticipation of the consultation, it cannot be less than 30 minutes.")
+            throw IntegrityValidation("Anticipation of the consultation, it cannot be less than 30 minutes.")
         }
     }
 }
