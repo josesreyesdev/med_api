@@ -1,5 +1,6 @@
 package com.jsrdev.med_api.domain.consult
 
+import com.jsrdev.med_api.domain.consult.validations.cancel.CancellationReason
 import com.jsrdev.med_api.domain.patient.Patient
 import com.jsrdev.med_api.domain.physician.Physician
 import jakarta.persistence.*
@@ -13,11 +14,11 @@ data class Consult(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "physician_id")
-    val physicianId: Physician,
+    val physician: Physician,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
-    val patientId: Patient,
+    val patient: Patient,
 
     val date: LocalDateTime,
 
@@ -25,6 +26,14 @@ data class Consult(
     @Enumerated(EnumType.STRING)
     var cancellationReason: CancellationReason?
 ) {
+
+    constructor(physician: Physician, patient: Patient, date: LocalDateTime) : this(
+        id = null,
+        physician = physician,
+        patient = patient,
+        date = date,
+        cancellationReason = null
+    )
 
     fun cancel(cancellationReason: CancellationReason) {
         this.cancellationReason = cancellationReason

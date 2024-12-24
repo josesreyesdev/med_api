@@ -59,7 +59,7 @@ class TokenService(jwtProperties: JwtProperties) {
 
             return verifier.verify(token)
         } catch (ex: JWTVerificationException) {
-            throw IllegalArgumentException("invalid or expired token")
+            throw IllegalArgumentException("Invalid or expired token")
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.jsrdev.med_api.infra.errors
 
+import com.jsrdev.med_api.infra.exceptions.IntegrityValidation
 import jakarta.persistence.EntityNotFoundException
+import jakarta.validation.ValidationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -39,5 +41,15 @@ class GlobalExceptionHandler {
             field = error.field,
             error = error.defaultMessage
         )
+    }
+
+    @ExceptionHandler(IntegrityValidation::class)
+    fun errorHandlerValidation403(ex: IntegrityValidation): ResponseEntity<String> {
+        return ResponseEntity.badRequest().body(ex.message)
+    }
+
+    @ExceptionHandler(ValidationException::class)
+    fun errorHandlerBusinessRulesValidation403(ex: ValidationException): ResponseEntity<String> {
+        return ResponseEntity.badRequest().body(ex.message)
     }
 }
