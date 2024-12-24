@@ -8,6 +8,8 @@ interface ConsultRepository : JpaRepository<Consult, Long> {
         patientId: Long, firstSchedule: LocalDateTime, lastSchedule: LocalDateTime
     ): Boolean
 
-    fun existsByPhysicianIdAndDate(idPhysician: Long, date: LocalDateTime): Boolean
+    //fun existsByPhysicianIdAndDate(idPhysician: Long, date: LocalDateTime): Boolean
+
+    fun existsByPhysicianIdAndDateAndCancellationReasonIsNull(idPhysician: Long, date: LocalDateTime): Boolean
 
 }

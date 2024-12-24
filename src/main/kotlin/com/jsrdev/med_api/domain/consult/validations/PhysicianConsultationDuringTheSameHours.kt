@@ -18,7 +18,8 @@ class PhysicianConsultationDuringTheSameHours(
         if (data.idPhysician == null) return
 
         val physicianWithConsultation: Boolean = consultRepository
-            .existsByPhysicianIdAndDate(data.idPhysician, data.date)
+            //.existsByPhysicianIdAndDate(data.idPhysician, data.date)
+            .existsByPhysicianIdAndDateAndCancellationReasonIsNull(data.idPhysician, data.date)
 
         if (physicianWithConsultation) {
             throw IntegrityValidation("The physician already has a consultation on the same date and time.")

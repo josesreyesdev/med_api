@@ -24,7 +24,7 @@ class SecurityConfiguration {
                     .permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/users")
                     .permitAll()
-                    .requestMatchers(HttpMethod.DELETE, "/api/physicians", "/api/patients", "/api/consultation")
+                    .requestMatchers(HttpMethod.DELETE, "/api/physicians**", "/api/patients**", "/api/consultation")
                     .hasRole("ADMIN")
                     .requestMatchers("/api/users**")
                     .hasRole("ADMIN")

@@ -27,7 +27,7 @@ class ConsultationController(
     @DeleteMapping
     @Transactional
     fun delete(@RequestBody @Valid cancelData: CancellationRequest): ResponseEntity<Boolean> {
-        consultService.cancellationOfConsultation(cancelData)
+        consultService.cancel(cancelData)
         return ResponseEntity.noContent().build()
     }
 }

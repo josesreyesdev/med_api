@@ -1,6 +1,7 @@
 package com.jsrdev.med_api.domain.consult
 
 import com.jsrdev.med_api.domain.consult.cancel.CancellationRequest
+import com.jsrdev.med_api.domain.consult.cancel.ConsultationCancellationValidator
 import com.jsrdev.med_api.domain.consult.validations.ConsultationValidator
 import com.jsrdev.med_api.domain.patient.PatientRepository
 import com.jsrdev.med_api.domain.physician.Physician
@@ -14,7 +15,8 @@ class ConsultService(
     private val physicianRepository: PhysicianRepository,
     private val patientRepository: PatientRepository,
     private val consultRepository: ConsultRepository,
-    private val validators: List<ConsultationValidator>
+    private val validators: List<ConsultationValidator>,
+    private val cancelValidators: List<ConsultationCancellationValidator>
 ) {
 
     fun addConsult(data: ConsultRequest): Consult {
@@ -62,12 +64,15 @@ class ConsultService(
             ?: throw IntegrityValidation("No available physicians were found for the specified specialty and date.")
     }
 
-    fun cancellationOfConsultation(cancelData: CancellationRequest) {
+    fun cancel(cancelData: CancellationRequest) {
         if (!consultRepository.existsById(cancelData.id)) {
             throw IntegrityValidation("The specified consult (ID: ${cancelData.id}) does not exist in the database.")
         }
 
-        val consult: Consult = consultRepository.getReferenceById(cancelData.id)
+        cancelValidators.forEach { v -> v.validate(cancelData) }
+
+        val consult: Consult = consultRepository.findByIdOrNull(cancelData.id)
+            ?: throw IntegrityValidation("The consultation with ID: ${cancelData.id} was not found in the database")
 
         consult.cancel(cancelData.cancellationReason)
     }
