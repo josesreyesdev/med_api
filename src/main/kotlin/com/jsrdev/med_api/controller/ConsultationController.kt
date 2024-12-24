@@ -1,6 +1,7 @@
 package com.jsrdev.med_api.controller
 
 import com.jsrdev.med_api.domain.consult.Consult
+import com.jsrdev.med_api.domain.consult.ConsultMapper.toResponse
 import com.jsrdev.med_api.domain.consult.cancel.CancellationRequest
 import com.jsrdev.med_api.domain.consult.ConsultRequest
 import com.jsrdev.med_api.domain.consult.ConsultResponse
@@ -11,7 +12,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/consult")
+@RequestMapping("/api/consultation")
 class ConsultationController(
     private val consultService: ConsultService
 ) {
@@ -20,10 +21,10 @@ class ConsultationController(
     @Transactional
     fun add(@RequestBody @Valid consultRequest: ConsultRequest): ResponseEntity<ConsultResponse> {
         val consult: Consult = consultService.addConsult(consultRequest)
-        return ResponseEntity.ok(ConsultResponse(consult.id, consult.physician.id, consult.patient.id, consult.date))
+        return ResponseEntity.ok(consult.toResponse())
     }
 
-    @DeleteMapping()
+    @DeleteMapping
     @Transactional
     fun delete(@RequestBody @Valid cancelData: CancellationRequest): ResponseEntity<Boolean> {
         consultService.cancellationOfConsultation(cancelData)

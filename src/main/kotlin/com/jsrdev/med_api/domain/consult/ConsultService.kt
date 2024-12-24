@@ -19,6 +19,10 @@ class ConsultService(
 
     fun addConsult(data: ConsultRequest): Consult {
 
+        if (!patientRepository.existsById(data.idPatient)) {
+            throw ValidateException("The specified patient (ID: ${data.idPatient}) does not exist in the database.")
+        }
+
         /**
          *  validators => it´s part of strategy pattern and SOLID principles:
          *  1.- Single responsibility
@@ -48,7 +52,7 @@ class ConsultService(
                 throw ValidateException("The specified physician (ID: $id) is not active in the database.")
             }
             return physicianRepository.findByIdOrNull(id)
-                ?: throw ValidateException("The physician with ID: $id was not found in the database or is inactive")
+                ?: throw ValidateException("The physician with ID: $id was not found in the database")
         }
 
         val specialty = data.specialty
