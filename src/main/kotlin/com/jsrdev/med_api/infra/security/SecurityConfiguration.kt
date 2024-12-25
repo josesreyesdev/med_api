@@ -20,14 +20,27 @@ class SecurityConfiguration {
     ): SecurityFilterChain {
         httpSecurity.csrf { it.disable() }
             .authorizeHttpRequests {
-                it.requestMatchers("/api/auth")
+                it
+                    .requestMatchers(
+                        "/v3/api-docs/**",    // Allow access to OpenAPI docs
+                        "/swagger-ui/**",     // Allow access to Swagger UI
+                        "/swagger-ui.html"
+                    ).permitAll()
+                    .requestMatchers("/api/auth")
                     .permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/users")
-                    .permitAll()
-                    .requestMatchers(HttpMethod.DELETE, "/api/physicians**", "/api/patients**", "/api/consultation")
-                    .hasRole("ADMIN")
-                    .requestMatchers("/api/users**")
-                    .hasRole("ADMIN")
+                    .requestMatchers(
+                        HttpMethod.POST,
+                        "/api/users"
+                    ).permitAll()
+                    .requestMatchers(
+                        HttpMethod.DELETE,
+                        "/api/physicians**",
+                        "/api/patients**",
+                        "/api/consultation"
+                    ).hasRole("ADMIN")
+                    .requestMatchers(
+                        "/api/users**"
+                    ).hasRole("ADMIN")
                     .anyRequest()
                     .fullyAuthenticated()
             }
