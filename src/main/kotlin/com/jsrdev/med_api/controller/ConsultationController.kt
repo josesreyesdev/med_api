@@ -6,6 +6,7 @@ import com.jsrdev.med_api.domain.consult.validations.cancel.CancellationRequest
 import com.jsrdev.med_api.domain.consult.ConsultRequest
 import com.jsrdev.med_api.domain.consult.ConsultResponse
 import com.jsrdev.med_api.domain.consult.ConsultService
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/consultation")
+@SecurityRequirement(name = "bearer-key")
 class ConsultationController(
     private val consultService: ConsultService
 ) {
