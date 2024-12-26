@@ -3,6 +3,7 @@ package com.jsrdev.med_api.controller
 import com.jsrdev.med_api.domain.patient.*
 import com.jsrdev.med_api.domain.patient.PatientMapper.toResponse
 import com.jsrdev.med_api.domain.patient.PatientMapper.updateFrom
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,6 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder
 
 @RestController
 @RequestMapping("/api/patients")
+@SecurityRequirement(name = "bearer-key")
 class PatientController @Autowired constructor(
     private val patientRepository: PatientRepository
 ) {
