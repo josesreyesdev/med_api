@@ -66,6 +66,34 @@ class PhysicianRepositoryTest {
         assertThat(freePhysician).isNull()
     }
 
+    @Test
+    @DisplayName("Must return a physician when available on that date")
+    fun chooseARandomPhysicianAvailableOnTheDateScenario2() {
+
+        /* GIVEN */
+        val nextMondayAt10h = LocalDate.now()
+            .with(TemporalAdjusters.next(DayOfWeek.MONDAY))
+            .atTime(10, 0) // 10 am
+
+        /*
+        * Register a physician, patient and consultation
+        * */
+        val physician = addPhysician(
+            "Juan P",
+            "https://imagen-physician.com",
+            "juanp@example.com",
+            "12443",
+            Specialty.CARDIOLOGY
+        )
+
+        /* WHEN */
+        val freePhysician = physicianRepository
+            .chooseARandomPhysicianAvailableOnTheDate(Specialty.CARDIOLOGY, nextMondayAt10h)
+
+        /* THEN */
+        assertThat(freePhysician).isEqualTo(physician)
+    }
+
     private fun addConsultation(physician: Physician, patient: Patient, date: LocalDateTime) {
         entityManager.persist(Consult(null, physician, patient, date, null));
     }
