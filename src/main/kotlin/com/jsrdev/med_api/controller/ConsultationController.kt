@@ -1,11 +1,9 @@
 package com.jsrdev.med_api.controller
 
-import com.jsrdev.med_api.domain.consult.Consult
-import com.jsrdev.med_api.domain.consult.ConsultMapper.toResponse
-import com.jsrdev.med_api.domain.consult.validations.cancel.CancellationRequest
 import com.jsrdev.med_api.domain.consult.ConsultRequest
 import com.jsrdev.med_api.domain.consult.ConsultResponse
 import com.jsrdev.med_api.domain.consult.ConsultService
+import com.jsrdev.med_api.domain.consult.validations.cancel.CancellationRequest
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
@@ -22,8 +20,8 @@ class ConsultationController(
     @PostMapping
     @Transactional
     fun add(@RequestBody @Valid consultRequest: ConsultRequest): ResponseEntity<ConsultResponse> {
-        val consult: Consult = consultService.addConsult(consultRequest)
-        return ResponseEntity.ok(consult.toResponse())
+        val consultResponse: ConsultResponse = consultService.addConsult(consultRequest)
+        return ResponseEntity.ok(consultResponse)
     }
 
     @DeleteMapping

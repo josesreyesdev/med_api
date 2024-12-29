@@ -1,5 +1,6 @@
 package com.jsrdev.med_api.domain.consult
 
+import com.jsrdev.med_api.domain.consult.ConsultMapper.toResponse
 import com.jsrdev.med_api.domain.consult.validations.cancel.CancellationRequest
 import com.jsrdev.med_api.domain.consult.validations.cancel.ConsultationCancellationValidator
 import com.jsrdev.med_api.domain.consult.validations.reserve.ConsultationValidator
@@ -19,7 +20,7 @@ class ConsultService(
     private val cancelValidators: List<ConsultationCancellationValidator>
 ) {
 
-    fun addConsult(data: ConsultRequest): Consult {
+    fun addConsult(data: ConsultRequest): ConsultResponse {
 
         if (!patientRepository.existsById(data.idPatient)) {
             throw IntegrityValidation("The specified patient (ID: ${data.idPatient}) does not exist in the database.")
@@ -42,7 +43,9 @@ class ConsultService(
             date = data.date
         )
 
-        return consultRepository.save(consult)
+        consultRepository.save(consult)
+
+        return consult.toResponse()
     }
 
     private fun chooseAPhysician(data: ConsultRequest): Physician {
