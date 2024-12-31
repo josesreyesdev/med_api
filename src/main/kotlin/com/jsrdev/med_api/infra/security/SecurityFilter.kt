@@ -32,8 +32,6 @@ class SecurityFilter(
         val jwtToken = authHeader!!.extractTokenValue()
         val email = tokenService.extractSubject(jwtToken)
 
-        println("JWT: $jwtToken, \nsubject = $email")
-
         if (email != null && SecurityContextHolder.getContext().authentication == null) {
             val foundUser = authService.loadUserByUsername(email)
 
@@ -51,7 +49,6 @@ class SecurityFilter(
         this.substringAfter("Bearer ")
 
     private fun updateContext(foundUser: UserDetails, request: HttpServletRequest) {
-        println("Roles for user ${foundUser.username}: ${foundUser.authorities}")
 
         val authToken = UsernamePasswordAuthenticationToken(foundUser, null, foundUser.authorities)
 
