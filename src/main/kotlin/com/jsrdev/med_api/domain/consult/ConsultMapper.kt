@@ -8,4 +8,12 @@ object ConsultMapper {
             patientId = this.patient.id,
             date = this.date
         )
+
+    fun Consult.toDetailResponse(): DetailConsultationResponse =
+        DetailConsultationResponse(
+            id = this.id ?: 0,
+            idPatient = this.patient.id ?: 0,
+            idPhysician = this.physician.id ?: 0,
+            date = this.date
+        )
 }
