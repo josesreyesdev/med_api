@@ -42,7 +42,6 @@ class ConsultationController(
     }
 
     @GetMapping("/monthly-report/{month}")
-    @Transactional
     fun monthlyReport(
         @PathVariable(name = "month") yearMonth: YearMonth,
         @PageableDefault(size = 10, sort = ["physician.name"]) pagination: Pageable,
