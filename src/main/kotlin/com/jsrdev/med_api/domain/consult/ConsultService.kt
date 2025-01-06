@@ -10,9 +10,11 @@ import com.jsrdev.med_api.domain.physician.Physician
 import com.jsrdev.med_api.domain.physician.PhysicianRepository
 import com.jsrdev.med_api.infra.exceptions.IntegrityValidation
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class ConsultService(
@@ -84,6 +86,16 @@ class ConsultService(
     }
 
     fun consultation(pagination: Pageable): Page<DetailConsultationResponse> {
-        return consultRepository.findAll(pagination).map { it.toDetailResponse() }
+        val consultationsPage = consultRepository.findAll(pagination)
+
+        // filter current or future consultations
+        val filteredConsultations = consultationsPage.content.filter {
+            it.date.isAfter(LocalDateTime.now()) || it.date.isEqual(LocalDateTime.now())
+        }
+
+        // create new filtered page
+        val filteredPage = PageImpl(filteredConsultations, pagination, consultationsPage.totalElements)
+
+        return filteredPage.map { it.toDetailResponse() }
     }
 }
