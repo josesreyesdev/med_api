@@ -1,5 +1,6 @@
 package com.jsrdev.med_api.domain.consult
 
+import com.jsrdev.med_api.domain.consult.ConsultMapper.toDetailResponse
 import com.jsrdev.med_api.domain.consult.ConsultMapper.toResponse
 import com.jsrdev.med_api.domain.consult.validations.cancel.CancellationRequest
 import com.jsrdev.med_api.domain.consult.validations.cancel.ConsultationCancellationValidator
@@ -8,8 +9,12 @@ import com.jsrdev.med_api.domain.patient.PatientRepository
 import com.jsrdev.med_api.domain.physician.Physician
 import com.jsrdev.med_api.domain.physician.PhysicianRepository
 import com.jsrdev.med_api.infra.exceptions.IntegrityValidation
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class ConsultService(
@@ -78,5 +83,19 @@ class ConsultService(
             ?: throw IntegrityValidation("The consultation with ID: ${cancelData.id} was not found in the database")
 
         consult.cancel(cancelData.cancellationReason)
+    }
+
+    fun consultation(pagination: Pageable): Page<DetailConsultationResponse> {
+        val consultationsPage = consultRepository.findAll(pagination)
+
+        // filter current or future consultations
+        val filteredConsultations = consultationsPage.content.filter {
+            it.date.isAfter(LocalDateTime.now()) || it.date.isEqual(LocalDateTime.now())
+        }
+
+        // create new filtered page
+        val filteredPage = PageImpl(filteredConsultations, pagination, consultationsPage.totalElements)
+
+        return filteredPage.map { it.toDetailResponse() }
     }
 }
