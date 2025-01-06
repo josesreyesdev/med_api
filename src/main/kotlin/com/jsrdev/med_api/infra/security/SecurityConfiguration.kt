@@ -35,8 +35,7 @@ class SecurityConfiguration {
                     .requestMatchers(
                         HttpMethod.DELETE,
                         "/api/physicians**",
-                        "/api/patients**",
-                        "/api/consultation"
+                        "/api/patients**"
                     ).hasRole("ADMIN")
                     .requestMatchers(
                         "/api/users**"
