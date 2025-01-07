@@ -17,8 +17,8 @@ class HoursOfOperation : ConsultationValidator {
         val consultDate: LocalDateTime = data.date
 
         val sunday: Boolean = consultDate.dayOfWeek.equals(DayOfWeek.SUNDAY)
-        val openingTime = data.date.hour < 7
-        val closingTime = data.date.hour > 18
+        val openingTime: Boolean = data.date.hour < 7
+        val closingTime: Boolean = data.date.hour > 18 || (data.date.hour == 18 && data.date.minute > 0)
 
         if (sunday || openingTime || closingTime)  {
             throw IntegrityValidation("Opening hours are Monday to Saturday from 07:00 to 18:00 hours")
